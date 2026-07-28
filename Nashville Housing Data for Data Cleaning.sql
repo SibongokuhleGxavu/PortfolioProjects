@@ -148,6 +148,21 @@ Join (
 ) As duplicates
 On nh.UniqueID = duplicates.UniqueID;
 
+SELECT COUNT(*) AS DuplicateRows
+FROM (
+    SELECT
+        ROW_NUMBER() OVER (
+            PARTITION BY ParcelID,
+                         PropertyAddress,
+                         SalePrice,
+                         SaleDate,
+                         LegalReference
+            ORDER BY UniqueID
+        ) AS row_num
+    FROM nashvillehousing
+) AS ranked
+WHERE row_num > 1;
+
 -- Delete Unused Columns
 
 Select *
@@ -156,8 +171,11 @@ From nashvillehousing;
 Alter Table nashvillehousing
 Drop column OwnerAddress, 
 Drop column TaxDistrict, 
-Drop column PropertyAddress;
+Drop column PropertyAddress,
+Drop column SaleDate;
 
+Select *
+From nashvillehousing;
 
 
 
