@@ -34,6 +34,10 @@ And a.UniqueID <> b.UniqueID
 Set a.PropertyAddress = b.PropertyAddress
 Where a.PropertyAddress is null;
 
+SELECT *
+FROM nashvillehousing
+WHERE PropertyAddress IS NULL;
+
 -- Breaking out Address into Individual Columns (Address, City, State)
 
 Select PropertyAddress
