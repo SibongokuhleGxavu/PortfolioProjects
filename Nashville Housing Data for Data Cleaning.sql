@@ -27,17 +27,26 @@ On a.ParcelID = b.ParcelID
 And a.UniqueID <> b.UniqueID
 Where a.PropertyAddress is null;
 
-Update nashvillehousing a 
-Join nashvillehousing b
-On a.ParcelID = b.ParcelID
-And a.UniqueID <> b.UniqueID
-Set a.PropertyAddress = b.PropertyAddress
-Where a.PropertyAddress is null;
+-- Before update
 
-SELECT *
+SELECT COUNT(*) AS NullAddresses
 FROM nashvillehousing
 WHERE PropertyAddress IS NULL;
 
+-- Fill in the missing addresses
+
+UPDATE nashvillehousing a
+JOIN nashvillehousing b
+  ON a.ParcelID = b.ParcelID
+ AND a.UniqueID <> b.UniqueID
+SET a.PropertyAddress = b.PropertyAddress
+WHERE a.PropertyAddress IS NULL;
+
+-- After update
+
+SELECT COUNT(*) AS NullAddresses
+FROM nashvillehousing
+WHERE PropertyAddress IS NULL;
 -- Breaking out Address into Individual Columns (Address, City, State)
 
 Select PropertyAddress
